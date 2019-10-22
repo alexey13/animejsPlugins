@@ -6,7 +6,6 @@ export default {
     babel({presets: ['@babel/preset-env']})
   ],
   output: {
-    exports: 'named',
     file: './dist/babel.js',
     format: 'iife',
     name: 'animePlugins'
