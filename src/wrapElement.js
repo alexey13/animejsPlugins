@@ -1,4 +1,4 @@
-function wrapElementWidthHeight(el, className = null, width, height) {
+export function wrapElementWidthHeight(el, className = null, width, height) {
   let wrapper = document.createElement( "span" );
   className ? wrapper.className = className : '';
   wrapper.style.height = height + 'px';
@@ -6,5 +6,3 @@ function wrapElementWidthHeight(el, className = null, width, height) {
   wrapper.appendChild( el );
   return wrapper;
 }
-
-export {wrapElementWidthHeight};

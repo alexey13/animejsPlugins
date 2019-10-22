@@ -1,7 +1,19 @@
-var animePlugins = (function (exports, wrapElement_js) {
+var animePlugins = (function (exports) {
   'use strict';
 
-  function randomLettersAnimation(_ref) {
+  function wrapElementWidthHeight(el) {
+    var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var width = arguments.length > 2 ? arguments[2] : undefined;
+    var height = arguments.length > 3 ? arguments[3] : undefined;
+    var wrapper = document.createElement("span");
+    className ? wrapper.className = className : '';
+    wrapper.style.height = height + 'px';
+    wrapper.style.width = width + 'px';
+    wrapper.appendChild(el);
+    return wrapper;
+  }
+
+  function randomLetters(_ref) {
     var itemWrapperSelector = _ref.itemWrapperSelector,
         charSelector = _ref.charSelector,
         stepPerFrames = _ref.stepPerFrames,
@@ -21,7 +33,7 @@ var animePlugins = (function (exports, wrapElement_js) {
       if (alreadyWrapped.length === 0) {
         var h = el.offsetHeight;
         var w = el.offsetWidth;
-        var wrapper = wrapElement_js.wrapElementWidthHeight(el, charWrapper.substring(1, charWrapper.length), w, h);
+        var wrapper = wrapElementWidthHeight(el, charWrapper.substring(1, charWrapper.length), w, h);
         frag.appendChild(wrapper);
       } //number of steps
 
@@ -80,8 +92,8 @@ var animePlugins = (function (exports, wrapElement_js) {
     }
   }
 
-  exports.default = randomLettersAnimation;
+  exports.randomLetters = randomLetters;
 
   return exports;
 
-}({}, wrapElement_js));
+}({}));

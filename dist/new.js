@@ -1,7 +1,16 @@
-var animePlugins = (function (exports, wrapElement_js) {
+var animePlugins = (function (exports) {
   'use strict';
 
-  function randomLettersAnimation({itemWrapperSelector, charSelector, stepPerFrames, scaleDurationRandom, scaleEasing, endDelayRandom}) {
+  function wrapElementWidthHeight(el, className = null, width, height) {
+    let wrapper = document.createElement( "span" );
+    className ? wrapper.className = className : '';
+    wrapper.style.height = height + 'px';
+    wrapper.style.width = width + 'px';
+    wrapper.appendChild( el );
+    return wrapper;
+  }
+
+  function randomLetters({itemWrapperSelector, charSelector, stepPerFrames, scaleDurationRandom, scaleEasing, endDelayRandom}) {
 
     const itemWrapper = itemWrapperSelector;
     const charWrapper = '.random-letters-wrapper';
@@ -19,7 +28,7 @@ var animePlugins = (function (exports, wrapElement_js) {
       if (alreadyWrapped.length === 0) {
         const h = el.offsetHeight;
         const w = el.offsetWidth; 
-        let wrapper = wrapElement_js.wrapElementWidthHeight(el, charWrapper.substring(1,charWrapper.length), w, h);
+        let wrapper = wrapElementWidthHeight(el, charWrapper.substring(1,charWrapper.length), w, h);
         frag.appendChild( wrapper );
       }
 
@@ -67,8 +76,8 @@ var animePlugins = (function (exports, wrapElement_js) {
     }
   }
 
-  exports.default = randomLettersAnimation;
+  exports.randomLetters = randomLetters;
 
   return exports;
 
-}({}, wrapElement_js));
+}({}));
