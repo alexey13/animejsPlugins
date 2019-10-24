@@ -34,7 +34,7 @@ animejsPlugins.imagesPlayer({
 	to: 56,
 	loop: true,
 	autoplay: true,
-	onEnd: () => w < responsiveBreakpoint ? an.play() : ''
+	onEnd: fun
 })
 ```
 
@@ -46,6 +46,6 @@ animejsPlugins.scrollContainer({
 	section: document.querySelector('.section'),
 	duration: 1000,
 	easing: 'easeInOutQuad',
-	onComplete: index => onComplete(index)
+	onComplete: index => fun(index)
 })
 ```
