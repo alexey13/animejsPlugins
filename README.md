@@ -22,3 +22,26 @@ animejsPlugins.randomLetters({
 })
 ```
 Example https://codepen.io/alexzhav/pen/yLLVJqy
+
+2. ImagesPlayer. Making video from image files
+```js
+animejsPlugins.imagesPlayer({
+	path: '/animations/logo-png/{num}.png',
+	from: 26,
+	to: 56,
+	loop: true,
+	autoplay: true,
+	onEnd: () => w < responsiveBreakpoint ? an.play() : ''
+})
+```
+
+3. Scroll container height.
+```js
+animejsPlugins.scrollContainer({
+	wrapper: document.querySelector('#page'),
+	section: document.querySelector('.section'),
+	duration: 1000,
+	easing: 'easeInOutQuad',
+  onComplete: index => onComplete(index)
+})
+```
