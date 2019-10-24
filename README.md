@@ -11,6 +11,7 @@ Add files to page and you are ready to go
 ```
 ## Plugins
 1. Random letters animation
+
 ```js
 animejsPlugins.randomLetters({
   stepPerFrames: 3,
@@ -21,9 +22,11 @@ animejsPlugins.randomLetters({
   itemWrapperSelector: '.project-item.active'
 })
 ```
+
 Example https://codepen.io/alexzhav/pen/yLLVJqy
 
 2. ImagesPlayer. Making video from image files
+
 ```js
 animejsPlugins.imagesPlayer({
 	path: '/animations/logo-png/{num}.png',
@@ -35,7 +38,8 @@ animejsPlugins.imagesPlayer({
 })
 ```
 
-3. Scroll container height.
+3. Scroll container height
+
 ```js
 animejsPlugins.scrollContainer({
 	wrapper: document.querySelector('#page'),
