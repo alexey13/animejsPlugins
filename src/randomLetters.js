@@ -1,9 +1,9 @@
 import {wrapElementWidthHeight} from './wrapElement.js';
-export function randomLetters({itemWrapperSelector, charSelector, stepPerFrames, scaleDurationRandom, scaleEasing, endDelayRandom}) {
+export function randomLetters({targetsWrapperSelector, targets, stepPerFrames, onBegin = null, onUpdate = null, onComplete = null, animation} = {}) {
 
-  const itemWrapper = itemWrapperSelector;
+  const itemWrapper = targetsWrapperSelector;
   const charWrapper = '.random-letters-wrapper';
-  const char = charSelector;
+  const char = targets;
 
   const alreadyWrapped = document.querySelectorAll(`${itemWrapper} ${charWrapper}`);
   const parent = document.querySelector(`${itemWrapper} ${char}`).parentNode;
@@ -21,28 +21,29 @@ export function randomLetters({itemWrapperSelector, charSelector, stepPerFrames,
       frag.appendChild( wrapper );
     }
 
-    //number of steps
-    const steps = stepEvery(0, 100, stepPerFrames);
-    //update number
+    //steps array
+    let steps;
+    //frame
     let upd = 0;
-
-    animes.push(anime({
+    let animeMerged = Object.assign(animation, {
       targets: el,
-      scale: {value: [0, 1], duration: anime.random(scaleDurationRandom[0], scaleDurationRandom[1]), easing: scaleEasing },
-      opacity: {value: [0, 1], duration: 500 },
-      endDelay: anime.random(endDelayRandom[0], endDelayRandom[1]),
-      easing: 'cubicBezier(.17, .17, .83, .83)',
-      autoplay: false,
+      begin: function(anim) {
+        steps = stepEvery(0, anim.duration, stepPerFrames);
+        onBegin ? onBegin(anim) : ''
+      },
       update: function(anim) {
-        upd = Math.round(anim.progress);
+        upd++
         //When update equals our step change letter
         steps.includes(upd) ? el.innerHTML = pickRandomLetter() : '';
+        onUpdate ? onUpdate(anim) : ''
       },
-      complete: function() {
+      complete: function(anim) {
         //Set initial letter
         el.innerHTML = value
+        onComplete ? onComplete(anim) : '';
       }
-    }))
+    })
+    animes.push(anime(animeMerged))
   })
 
   //If wrapper not added already add it
