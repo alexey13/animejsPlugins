@@ -97,7 +97,7 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
 
   function init() {
     //Set scroll position to top
-    window.scrollTo(0,0)
+    window.scrollTop = 0;
     //Save before we changed value
     state.beforeInitStyles.documentOverflowY = document.documentElement.style.overflowY;
     document.documentElement.style.overflowY = 'inherit';
@@ -108,7 +108,7 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
     state.contentEl.style.overflowY = 'scroll';
     state.contentEl.style.overflowX = 'hidden';
     state.contentEl.style.willChange = 'scroll-position';
-    state.contentEl.scrollTo(0,0);
+    state.contentEl.scrollTop = 0;
 
     //Create fixed element above scrollbar to avoid direct click on it
     const hackEl = document.createElement('div');
