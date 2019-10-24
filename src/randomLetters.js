@@ -1,23 +1,21 @@
 import {wrapElementWidthHeight} from './wrapElement.js';
-export function randomLetters({targetsWrapperSelector, targets, stepPerFrames, onBegin = null, onUpdate = null, onComplete = null, animation} = {}) {
+export function randomLetters({targetsSelector, stepPerFrames, symbols, onBegin = null, onUpdate = null, onComplete = null, animation} = {}) {
 
-  const itemWrapper = targetsWrapperSelector;
-  const charWrapper = '.random-letters-wrapper';
-  const char = targets;
+  const charWrapper = 'random-letters-wrapper';
+  const parent = document.querySelector(targetsSelector).parentNode;
 
-  const alreadyWrapped = document.querySelectorAll(`${itemWrapper} ${charWrapper}`);
-  const parent = document.querySelector(`${itemWrapper} ${char}`).parentNode;
+  const isAlreadyWrapped = parent.className === charWrapper ? true : false;
 
   let frag = document.createDocumentFragment();
   let animes = [];
 
-  document.querySelectorAll(`${itemWrapper} ${char}`).forEach((el, index) => {
+  document.querySelectorAll(targetsSelector).forEach((el, index) => {
     const value = el.innerHTML
     //Before start animation we get width and height and wrap in parent
-    if (alreadyWrapped.length === 0) {
+    if (!isAlreadyWrapped) {
       const h = el.offsetHeight;
       const w = el.offsetWidth; 
-      let wrapper = wrapElementWidthHeight(el, charWrapper.substring(1,charWrapper.length), w, h)
+      let wrapper = wrapElementWidthHeight(el, charWrapper, w, h)
       frag.appendChild( wrapper );
     }
 
@@ -46,8 +44,8 @@ export function randomLetters({targetsWrapperSelector, targets, stepPerFrames, o
     animes.push(anime(animeMerged))
   })
 
-  //If wrapper not added already add it
-  if (alreadyWrapped.length === 0) {
+  //If wrapper not added append it with targets
+  if (!isAlreadyWrapped) {
     parent.appendChild( frag )
   }
 
@@ -60,7 +58,7 @@ export function randomLetters({targetsWrapperSelector, targets, stepPerFrames, o
   }
 
   function pickRandomLetter() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const letters = symbols || 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const letter = letters.charAt(Math.floor(Math.random() * letters.length));
     return letter;
   }

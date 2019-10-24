@@ -14,12 +14,21 @@ Add files to page and you are ready to go
 
 ```js
 animejsPlugins.randomLetters({
-  stepPerFrames: 3,
-  scaleDurationRandom: [300,1000],
-  scaleEasing: 'cubicBezier(.17, -0, .83, 1)',
-  endDelayRandom: [300,600],
-  charSelector: 'span[class^="char"]',
-  itemWrapperSelector: '.project-item.active'
+  targetsSelector: '.random-letters-item.active span[class^="char"]',//animation target selector
+  symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',//string symbols to choose from
+  stepPerFrames: 3,//change letter every X frame
+  //Animation properties
+  animation: {
+    scale: {value: [0, 1], duration: () => anime.random(500, 1000), easing: 'cubicBezier(.17, -0, .83, 1)' },
+    opacity: {value: [0, 1], duration: 500 },
+    endDelay: () => anime.random(300, 600),
+    easing: 'cubicBezier(.17, .17, .83, .83)',
+    autoplay: false,
+  },
+  //Callback functions similar animejs 
+  onBegin: (anim) => {},
+  onUpdate: (anim) => {},
+  onComplete: (anim) => {},
 })
 ```
 
