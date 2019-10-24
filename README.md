@@ -1,4 +1,5 @@
 # animejsPlugins
+> Animation plugins using power of [Animejs](https://github.com/juliangarnier/anime)
 required Animejs https://github.com/juliangarnier/anime
 ## Installation
 Add files to page and you are ready to go
