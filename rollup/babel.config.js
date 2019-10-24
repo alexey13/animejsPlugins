@@ -8,8 +8,8 @@ export default {
     terser()
   ],
   output: {
-    file: './dist/babel.js',
+    file: './dist/animejsPlugins.min.js',
     format: 'iife',
-    name: 'animePlugins'
+    name: 'animejsPlugins'
   }
 };

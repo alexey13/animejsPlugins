@@ -33,8 +33,8 @@ export function randomLetters({itemWrapperSelector, charSelector, stepPerFrames,
       endDelay: anime.random(endDelayRandom[0], endDelayRandom[1]),
       easing: 'cubicBezier(.17, .17, .83, .83)',
       autoplay: false,
-      update: function() {
-        upd++;
+      update: function(anim) {
+        upd = Math.round(anim.progress);
         //When update equals our step change letter
         steps.includes(upd) ? el.innerHTML = pickRandomLetter() : '';
       },
