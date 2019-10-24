@@ -46,6 +46,6 @@ animejsPlugins.scrollContainer({
 	section: document.querySelector('.section'),
 	duration: 1000,
 	easing: 'easeInOutQuad',
-  onComplete: index => onComplete(index)
+	onComplete: index => onComplete(index)
 })
 ```
