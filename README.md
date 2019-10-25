@@ -12,8 +12,10 @@ Add [Animejs](https://github.com/juliangarnier/anime) and plugin.
 ```
 ## Animations
 1. Random letters
+
 ![randomLetters](https://github.com/alexey13/animejsPlugins/blob/master/gifs/randomLetters.gif)
-Example https://codepen.io/alexzhav/pen/yLLVJqy
+
+https://codepen.io/alexzhav/pen/yLLVJqy
 
 ```js
 animejsPlugins.randomLetters({
