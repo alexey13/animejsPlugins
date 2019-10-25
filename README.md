@@ -2,21 +2,23 @@
 > Animation plugins using power of [Animejs](https://github.com/juliangarnier/anime)
 
 ## Installation
-Add files to page and you are ready to go
+
+Add [Animejs](https://github.com/juliangarnier/anime) and plugin.
 ```html
 <!-- Animejs https://github.com/juliangarnier/anime -->
-<script src="/animejs.js"></script>
-<!-- Plugins -->
-<script src="/animejsPlugins.js"></script>
+<script src="animejs.js"></script>
+<!-- Plugin -->
+<script src="animejsPlugins.min.js"></script>
 ```
-## Plugins
-1. Random letters animation
+## Animations
+1. Random letters
+Example https://codepen.io/alexzhav/pen/yLLVJqy
 
 ```js
 animejsPlugins.randomLetters({
-  targetsSelector: '.random-letters-item.active span[class^="char"]',//animation target selector
-  symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',//string symbols to choose from
-  stepPerFrames: 3,//change letter every X frame
+  targetsSelector: '.random-letters-item.active span[class^="char"]',
+  symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+  stepPerFrames: 3,
   //Animation properties
   animation: {
     scale: {value: [0, 1], duration: () => anime.random(500, 1000), easing: 'cubicBezier(.17, -0, .83, 1)' },
@@ -25,14 +27,48 @@ animejsPlugins.randomLetters({
     easing: 'cubicBezier(.17, .17, .83, .83)',
     autoplay: false,
   },
-  //Callback functions similar animejs 
   onBegin: (anim) => {},
   onUpdate: (anim) => {},
   onComplete: (anim) => {},
 })
 ```
+### Options
+#### `targetsSelector`
+Animation target selector
 
-Example https://codepen.io/alexzhav/pen/yLLVJqy
+#### `symbols`
+Symbols to choose from.
+##### Default: `'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'`
+
+#### `stepPerFrames`
+Change symbol every X frame.
+##### Default: `3`
+
+#### `animation`
+Animejs options.
+Begin, update and complete animejs callbacks overwritten by onBegin, onUpdate, onComplete. 
+##### Default: 
+`{
+  scale: {value: [0, 1], duration: () => anime.random(500, 1000), easing: 'cubicBezier(.17, -0, .83, 1)' },
+  opacity: {value: [0, 1], duration: 500 },
+  endDelay: () => anime.random(300, 600),
+  easing: 'cubicBezier(.17, .17, .83, .83)',
+  autoplay: false,
+}`
+
+#### `onBegin`
+Callback function when animation begin. Get current anime object as argument.
+##### Default: `null`
+
+#### `onUpdate`
+Callback function when animation update. Get current anime object as argument.
+##### Default: `null`
+
+#### `onComplete`
+Callback function when animation complete. Get current anime object as argument.
+##### Default: `null`
+
+<br>
 
 2. ImagesPlayer. Making video from image files
 
@@ -46,6 +82,8 @@ animejsPlugins.imagesPlayer({
 	onEnd: fun
 })
 ```
+
+<br>
 
 3. Scroll container height
 
