@@ -15,7 +15,7 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
   //We get wrapped state by className
   const isAlreadyWrapped = parent.className === charWrapper ? true : false;
 
-  let frag = document.createDocumentFragment();
+  //let frag = document.createDocumentFragment();
   let animes = [];
 
   document.querySelectorAll(targetsSelector).forEach((el, index) => {
@@ -23,13 +23,14 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
 
     //Before start animation we get width and height and wrap in span
     if (!isAlreadyWrapped) {
+      let parentEl = el.parentNode;
       addInlineBlWhiteSp(el);
       const h = el.offsetHeight;
       const w = el.offsetWidth; 
       let wrapper = wrapElementWidthHeight(el, charWrapper, w, h);
       addHiddenWillCh(wrapper);
       addInlineBlWhiteSp(wrapper);
-      frag.appendChild( wrapper );
+      parentEl.appendChild( wrapper );
     }
 
     //steps array
@@ -58,10 +59,10 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
     animes.push(anime(animeMerged))
   })
 
-  //If wrapper not added append it with targets
+  /*//If wrapper not added append it with targets
   if (!isAlreadyWrapped) {
     parent.appendChild( frag )
-  }
+  }*/
 
   //Play all animations
   animes.map(a => a.play())
@@ -78,7 +79,7 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
   }
 
   function addHiddenWillCh(el){
-    el.style.overflow = 'hidden';
+    //el.style.overflow = 'hidden';
     el.style.willChange = 'opacity, transform';
   }
   function addInlineBlWhiteSp(el) {
