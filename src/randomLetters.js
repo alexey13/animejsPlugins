@@ -20,9 +20,10 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
 
   document.querySelectorAll(targetsSelector).forEach((el, index) => {
     const value = el.innerHTML;
-    addInlineBlWhiteSp(el);
+
     //Before start animation we get width and height and wrap in span
     if (!isAlreadyWrapped) {
+      addInlineBlWhiteSp(el);
       const h = el.offsetHeight;
       const w = el.offsetWidth; 
       let wrapper = wrapElementWidthHeight(el, charWrapper, w, h);
