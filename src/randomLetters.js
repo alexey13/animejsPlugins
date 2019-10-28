@@ -12,20 +12,22 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
     autoplay: false,
   };
 
-  !animation ? animation = defaultAnime : '';
+  //We get wrapped state by className
   const isAlreadyWrapped = parent.className === charWrapper ? true : false;
 
   let frag = document.createDocumentFragment();
   let animes = [];
 
   document.querySelectorAll(targetsSelector).forEach((el, index) => {
-    const value = el.innerHTML
-    //Before start animation we get width and height and wrap in parent
+    const value = el.innerHTML;
+    addInlineBlWhiteSp(el);
+    //Before start animation we get width and height and wrap in span
     if (!isAlreadyWrapped) {
       const h = el.offsetHeight;
       const w = el.offsetWidth; 
       let wrapper = wrapElementWidthHeight(el, charWrapper, w, h);
-      wrapper = addStyles(wrapper);
+      addHiddenWillCh(wrapper);
+      addInlineBlWhiteSp(wrapper);
       frag.appendChild( wrapper );
     }
 
@@ -33,7 +35,7 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
     let steps;
     //frame
     let upd = 0;
-    let animeMerged = Object.assign(animation, {
+    let animeMerged = Object.assign(animation || defaultAnime, {
       targets: el,
       begin: function(anim) {
         steps = stepEvery(0, anim.duration, stepPerFrames);
@@ -41,13 +43,14 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
       },
       update: function(anim) {
         upd++
-        //When update equals our step change letter
-        steps.includes(upd) ? el.innerHTML = pickRandomLetter() : '';
+        //When update equals our step change symbol
+        //If its a white space do not change symbol
+        steps.includes(upd) ? (el.innerHTML !== " ")  && (el.innerHTML = pickRandomLetter()) : '';
         onUpdate ? onUpdate(anim) : ''
       },
       complete: function(anim) {
-        //Set initial letter
-        el.innerHTML = value
+        //Set initial letter on end
+        el.innerHTML = value;
         onComplete ? onComplete(anim) : '';
       }
     })
@@ -73,10 +76,12 @@ export function randomLetters({targetsSelector, stepPerFrames = 3, symbols, onBe
     return letter;
   }
 
-  function addStyles(el){
-    el.style.transformOrigin = 'center center';
+  function addHiddenWillCh(el){
     el.style.overflow = 'hidden';
     el.style.willChange = 'opacity, transform';
-    return el;
+  }
+  function addInlineBlWhiteSp(el) {
+    el.style.display = 'inline-block';
+    el.style.whiteSpace = 'pre';
   }
 }

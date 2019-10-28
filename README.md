@@ -2,13 +2,13 @@
 > Animation plugins using power of [Animejs](https://github.com/juliangarnier/anime)
 
 ## Installation
-
-Add [Animejs](https://github.com/juliangarnier/anime) and plugin.
+If you have already [Animejs](https://github.com/juliangarnier/anime) in your project add only script.
+Oe you can add each effect separate.
 ```html
-<!-- Animejs https://github.com/juliangarnier/anime -->
+<!-- Animejs -->
 <script src="animejs.js"></script>
-<!-- Plugin -->
-<script src="animejsPlugins.min.js"></script>
+<!-- Script -->
+<script src="animejsPlugins-all.js"></script>
 ```
 ## Animations
 1. Random letters
