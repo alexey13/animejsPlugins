@@ -14,8 +14,7 @@ Oe you can add each effect separate.
 <script src="animejsPlugins-ScrollContainer.js"></script>
 <script src="animejsPlugins-ImagesPlayer.js"></script>
 ```
-## Animations
-1. Random letters
+## randomLetters
 
 ![randomLetters](https://github.com/alexey13/animejsPlugins/blob/master/gifs/randomLetters.gif)
 
@@ -78,7 +77,8 @@ Callback function when animation complete. Get current anime object as argument.
 
 <br>
 
-2. ImagesPlayer. Making video from image files.
+## ImagesPlayer
+- Making video from image files.
 
 ```js
 animejsPlugins.imagesPlayer({
@@ -93,7 +93,8 @@ animejsPlugins.imagesPlayer({
 
 <br>
 
-3. Scroll by container height.
+## scrollContainer
+- Scroll by container height.
 - Not hide scrollbar.
 - Scrollbar overlayed by hidden div that catch click events.
 - Recommend to disable it on mobiles.
