@@ -3,13 +3,13 @@
 
 ## Installation
 If you have already [Animejs](https://github.com/juliangarnier/anime) in your project add only script.
-Oe you can add each effect separate.
+Or you can add each plugin independent.
 ```html
 <!-- Animejs -->
 <script src="animejs.js"></script>
-<!-- Script -->
+<!-- All plugins -->
 <script src="animejsPlugins-all.js"></script>
-<!-- Each plugin can used independent -->
+<!-- Each plugin can be used independent -->
 <script src="animejsPlugins-RandomLetters.js"></script>
 <script src="animejsPlugins-ScrollContainer.js"></script>
 <script src="animejsPlugins-ImagesPlayer.js"></script>
