@@ -9,6 +9,10 @@ Oe you can add each effect separate.
 <script src="animejs.js"></script>
 <!-- Script -->
 <script src="animejsPlugins-all.js"></script>
+<!-- Each plugin can used independent -->
+<script src="animejsPlugins-RandomLetters.js"></script>
+<script src="animejsPlugins-ScrollContainer.js"></script>
+<script src="animejsPlugins-ImagesPlayer.js"></script>
 ```
 ## Animations
 1. Random letters
@@ -74,7 +78,7 @@ Callback function when animation complete. Get current anime object as argument.
 
 <br>
 
-2. ImagesPlayer. Making video from image files
+2. ImagesPlayer. Making video from image files.
 
 ```js
 animejsPlugins.imagesPlayer({
@@ -89,14 +93,50 @@ animejsPlugins.imagesPlayer({
 
 <br>
 
-3. Scroll container height
+3. Scroll by container height.
+- Not hide scrollbar.
+- Scrollbar overlayed by hidden div that catch click events.
+- Recommend to disable it on mobiles.
+
+![randomLetters](https://github.com/alexey13/animejsPlugins/blob/master/gifs/scrollSection.gif)
+
+https://codepen.io/alexzhav/pen/Yzzxgqd
+
+```html
+<!-- Required sections wrapped in div -->
+<div class="sections">
+  <div class="section"></div>
+  <div class="section"></div>
+  <div class="section"></div>
+</div>
+```
 
 ```js
 animejsPlugins.scrollContainer({
-  wrapper: document.querySelector('#page'),
-  section: document.querySelector('.section'),
+  sectionSelector: '.section',
   duration: 1000,
   easing: 'easeInOutQuad',
-  onComplete: index => fun(index)
+  onBegin: (index, anim) => {},
+  onComplete: (index, anim) => {},
 })
 ```
+
+### Options
+#### `sectionSelector`
+Section selector
+
+#### `duration`
+Animation duration
+##### Default: `1000`
+
+#### `easing`
+Animation easing
+##### Default: `'easeInOutQuad'`
+
+#### `onBegin`
+Callback function when animation begin. Arguments: current section index, anime object.
+##### Default: `null`
+
+#### `onComplete`
+Callback function when animation complete. Arguments: current section index, anime object.
+##### Default: `null`

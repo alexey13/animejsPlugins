@@ -1,12 +1,14 @@
 import {throttle} from './helpers.js';
-export function scrollContainer({wrapper, onBegin = null, onComplete = null, duration, easing, section} = {}) {
+export function scrollContainer({sectionSelector, duration = 1000, easing = 'easeInOutQuad', onBegin = null, onComplete = null} = {}) {
 
-  let state = {
+  const section = document.querySelector(sectionSelector);
+
+  const state = {
     slider: 1,//slider index 
     scrollPosition: 0,
-    sectionHeight: section.clientHeight,
+    sectionHeight: section.offsetHeight,
     animating: false,
-    contentEl: wrapper,
+    contentEl: section.parentNode,
     scrollReachedEndPosition: 'up',
     beforeInitStyles: {},
     scroll: {
@@ -27,16 +29,16 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
       scrollTop: [scrollPosition, newPosition],
       duration: duration,
       easing: easing,
-      begin: function() {
+      begin: function(anim) {
         state.animating = true;
-        onBegin ? onBegin(state.slider) : ''
+        onBegin ? onBegin(state.slider, anim) : ''
       },
-      complete: function() {
+      complete: function(anim) {
         state.animating = false
         state.scrollPosition = newPosition;
         state.scrollReachedEndPosition = calcScrollPosition();
         direction === 'down' ? state.slider++ : state.slider--
-        onComplete ? onComplete(state.slider) : ''
+        onComplete ? onComplete(state.slider, anim) : ''
         //clear if animation triggered by scroll
         if (state.scroll.clicked) scrollClear()
       },
@@ -46,6 +48,7 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
   const animateThrottle = throttle(animate, 300);
 
   function scroll(event) {
+
     event.preventDefault()
     if (event.deltaY < 0) {
       animateThrottle('up');
@@ -65,7 +68,7 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
   }
   //If clicked in position more then half of scrollbar we slide down else we slide up
   function scrollClick(event) {
-    let scrollBarHeight = event.target.clientHeight;
+    let scrollBarHeight = event.target.offsetHeight;
     let clickY = event.clientY;
     let clickProcent = clickY / scrollBarHeight;
     clickProcent = clickProcent.toFixed(1)
@@ -95,6 +98,16 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
     state.scroll.position = 0;
   }
 
+  
+  function resize() {
+    //Recalc height
+    state.sectionHeight = section.offsetHeight;
+    //Set scroll position
+    state.contentEl.scrollTop = (state.slider - 1) * state.sectionHeight;
+    //Update scroll position value
+    state.scrollPosition = state.contentEl.scrollTop;
+  }
+
   function init() {
     //Set scroll position to top
     window.scrollTop = 0;
@@ -105,6 +118,10 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
     //Save before we changed value
     state.beforeInitStyles.contentElOverflowY = state.contentEl.style.overflowY;
     state.beforeInitStyles.contentElOverflowX = state.contentEl.style.overflowX;
+
+    //Set each parent of section 100% height
+    addStylesParents(state.contentEl);
+
     state.contentEl.style.overflowY = 'scroll';
     state.contentEl.style.overflowX = 'hidden';
     state.contentEl.style.willChange = 'scroll-position';
@@ -120,6 +137,7 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
     state.contentEl.appendChild(hackEl);
 
     //Set listners
+    window.addEventListener('resize', resize);
     document.addEventListener('touchmove', scroll, {passive: false})
     document.addEventListener('wheel', scroll, {passive: false})
     hackEl.addEventListener('mousedown', scrollSetDelta, {passive: false})
@@ -129,6 +147,17 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
   }
   init()
 
+  function addStylesParents(el) {
+    el.style.height = '100%'
+    let arr = [];
+    for(let n in el){
+      el = el.parentNode;
+      if(el.nodeName == 'BODY') // return if the element is the body element
+        break;
+      arr.push(el);
+    }
+    arr.forEach(e => e.style.height = '100%')
+  }
 
   function destroy() {
     document.documentElement.style.overflowY = state.beforeInitStyles.documentOverflowY;
@@ -136,6 +165,7 @@ export function scrollContainer({wrapper, onBegin = null, onComplete = null, dur
     state.contentEl.style.overflowX = state.beforeInitStyles.contentElOverflowX;
     document.removeEventListener('touchmove', scroll, {passive: false})
     document.removeEventListener('wheel', scroll, {passive: false})
+    window.removeEventListener('resize', resize);
   }
   
   return {destroy};
