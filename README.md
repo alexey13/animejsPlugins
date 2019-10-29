@@ -15,7 +15,7 @@ Or you can add each plugin independent.
 <script src="animejsPlugins-ImagesPlayer.js"></script>
 ```
 ## randomLetters
-
+- First wrap each char of animation in to span (you can use helper animejsPlugins.charmingWordsChars(el))
 ![randomLetters](https://github.com/alexey13/animejsPlugins/blob/master/gifs/randomLetters.gif)
 
 https://codepen.io/alexzhav/pen/yLLVJqy
@@ -77,7 +77,7 @@ Callback function when animation complete. Get current anime object as argument.
 
 <br>
 
-## ImagesPlayer
+## imagesPlayer
 - Making video from image files.
 
 ```js
@@ -99,12 +99,12 @@ animejsPlugins.imagesPlayer({
 - Scrollbar overlayed by hidden div that catch click events.
 - Recommend to disable it on mobiles.
 
-![randomLetters](https://github.com/alexey13/animejsPlugins/blob/master/gifs/scrollSection.gif)
+![scrollContainer](https://github.com/alexey13/animejsPlugins/blob/master/gifs/scrollSection.gif)
 
 https://codepen.io/alexzhav/pen/Yzzxgqd
 
 ```html
-<!-- Required sections wrapped in div -->
+<!-- Sections must be wrapped in element, section not allowed to have as parentNode - body -->
 <div class="sections">
   <div class="section"></div>
   <div class="section"></div>
