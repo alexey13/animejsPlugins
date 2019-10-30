@@ -90,14 +90,19 @@ Callback function when animation complete. Get current anime object as argument.
 ## imagesPlayer
 - Making video from image files.
 
+https://codepen.io/alexzhav/pen/BaawOQp
+
 ```js
 animejsPlugins.imagesPlayer({
+  containerSelector: '.selector',
   path: '/animations/logo-png/{num}.png',
   from: 26,
   to: 56,
   loop: true,
   autoplay: true,
-  onEnd: fun
+  onBegin: (anim) => {},
+  onUpdate: (anim) => {},
+  onComplete: (anim) => {}
 })
 ```
 
