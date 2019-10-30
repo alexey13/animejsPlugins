@@ -1,12 +1,8 @@
-import {pageLoaded} from './helpers.js';
-
-//Images player. Video of png images rolled by animejs
-export function imagesPlayer({path, from, to, loop = true, autoplay = true, onEnd = null} = {}) {
+//Images player. Video from png images rolled by animejs
+export function imagesPlayer({containerSelector, path, from, to, loop = true, autoplay = true, duration = 1000, endDelay = 500, delay = 0, easing = 'linear', onBegin = null, onUpdate = null, onComplete = null} = {}) {
 
 	const state = {
-		loop: loop,
-		autoplay: autoplay,
-		wrapperClassName: '.loader',
+		containerSelector: containerSelector,
 		wrapperEl: '',
 		imagesWrapperEl: '',
 		ctx: '',
@@ -15,14 +11,13 @@ export function imagesPlayer({path, from, to, loop = true, autoplay = true, onEn
 		currentImage: 0,
 		allLength: '',
 		lastImage: '',
-		pageLoaded: false,
+		animationObject: '',
 	}
 
-	const actions = {
+	const privateActions = {
 		init: () => {
-			actions.createElements();
-			actions.loadImages();
-			actions.addEvent();
+			privateActions.createElements();
+			privateActions.loadImages();
 		},
 		loadImages: () => {
 			let images = filesHelper(from, to, path);
@@ -35,20 +30,20 @@ export function imagesPlayer({path, from, to, loop = true, autoplay = true, onEn
 			Promise.all(imagePromise)
 				.then((images) => {
 					state.images = images
-					actions.render()
+					privateActions.render()
 				})
 		},
 		createElements: () => {
-			document.documentElement.style.overflowY = 'hidden';
-			let wrapper = document.querySelector(state.wrapperClassName);
+			let wrapper = document.querySelector(state.containerSelector);
 			state.wrapperEl = wrapper;
-
+			
 			let imagesWrapper = document.createElement('div')
-			imagesWrapper.className = 'images-wrapper';
+			imagesWrapper.style.display = 'none';
 			state.imagesWrapperEl = imagesWrapper;
 			state.wrapperEl.appendChild(imagesWrapper);
 
 			let canvas = document.createElement('canvas');
+			canvas.className = 'ap-imagesplayer';
 			wrapper.appendChild(canvas);
 			let ctx = canvas.getContext('2d');
 			state.ctx = ctx;
@@ -57,38 +52,36 @@ export function imagesPlayer({path, from, to, loop = true, autoplay = true, onEn
 		render: () => {
 			state.canvasEl.width = state.images[0].naturalWidth;
 			state.canvasEl.height = state.images[0].naturalHeight;
-			let a = anime({
+			state.animationObject = anime({
 				targets: state,
 				currentImage: state.allLength,
-				duration: 1000,
-				loop: 2,
+				duration: duration,
+				loop: loop,
+				autoplay: autoplay,
 				round: 1,
-				endDelay: 500,
-				easing: 'linear',
-				update: function() {
+				endDelay: endDelay,
+				delay: delay,
+				easing: easing,
+				begin: function(anim) {
+					onBegin && onBegin(anim);
+				},
+				update: function(anim) {
 					state.ctx.clearRect(0, 0, state.canvasEl.width, state.canvasEl.height);
 					state.ctx.drawImage(state.images[state.currentImage], 0, 0, state.images[state.currentImage].naturalWidth, state.images[state.currentImage].naturalHeight);
+					onUpdate && onUpdate(anim)
 				},
-				complete: function() {
-			    if(state.pageLoaded) {
-			    	a.pause()
-			    	actions.end()
-            onEnd ? onEnd() : ''
-			    } else {
-			    	a.restart()
-			    }
+				complete: function(anim) {
+          onComplete && onComplete(anim);
 			  }
 			})
-		},
-		addEvent: () => {
-      let f = () => state.pageLoaded = true;
-      pageLoaded(f)
-		},
-		end: () => {
-			state.wrapperEl.style.display = 'none'
-			document.documentElement.style.overflowY = 'scroll';
 		}
 	}
+
+	const actions = {
+		play: () => {
+			state.animationObject.play();
+		}
+	};
 
 	function filesHelper(from, to, pathE) {
 		const placeholder = '{num}'
@@ -112,5 +105,6 @@ export function imagesPlayer({path, from, to, loop = true, autoplay = true, onEn
 		}
 	}
 
-	actions.init();
+	privateActions.init();
+	return {actions}
 }

@@ -1,9 +1,8 @@
 # animejsPlugins
-> Animation plugins using power of [Animejs](https://github.com/juliangarnier/anime)
+> Animation plugins that using power of Animejs
 
 ## Installation
-If you have already [Animejs](https://github.com/juliangarnier/anime) in your project add only script.
-Or you can add each plugin independent.
+Include [Animejs](https://github.com/juliangarnier/anime) in your project and plugin script.
 ```html
 <!-- Animejs -->
 <script src="animejs.js"></script>
@@ -15,14 +14,24 @@ Or you can add each plugin independent.
 <script src="animejsPlugins-ImagesPlayer.js"></script>
 ```
 ## randomLetters
-- First wrap each char of animation in to span (you can use helper animejsPlugins.charmingWordsChars(el))
+
 ![randomLetters](https://github.com/alexey13/animejsPlugins/blob/master/gifs/randomLetters.gif)
 
 https://codepen.io/alexzhav/pen/yLLVJqy
 
+```html
+<!-- First wrap each char of animation in span (you can use helper animejsPlugins.charmingWordsChars(el)) -->
+<div class="class">
+  <span class="char">W</span>
+  <span class="char">O</span>
+  <span class="char">R</span>
+  <span class="char">D</span>
+</div>
+```
+
 ```js
 animejsPlugins.randomLetters({
-  targetsSelector: '.random-letters-item.active span[class^="char"]',
+  targetsSelector: '.class span[class^="char"]',
   symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
   stepPerFrames: 3,
   animation: {
@@ -37,6 +46,7 @@ animejsPlugins.randomLetters({
   onComplete: (anim) => {}
 })
 ```
+
 ### Options
 #### `targetsSelector`
 Animation target selector
@@ -104,7 +114,7 @@ animejsPlugins.imagesPlayer({
 https://codepen.io/alexzhav/pen/Yzzxgqd
 
 ```html
-<!-- Sections must be wrapped in element, section not allowed to have as parentNode - body -->
+<!-- Section not allowed to have as parentNode body -->
 <div class="sections">
   <div class="section"></div>
   <div class="section"></div>

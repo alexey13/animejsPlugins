@@ -44,3 +44,31 @@ export function wrapElementWidthHeight(el, className = null, width, height) {
   wrapper.appendChild( el );
   return wrapper;
 }
+
+//Preloader
+export function preloader({containerSelector, onPageLoaded = null, onBegin = null} = {}) {
+
+  const state = {
+    container: document.querySelector(containerSelector)
+  };
+
+  const actions = {
+    start: () => {
+      document.documentElement.style.overflowY = 'hidden';
+      onBegin && onBegin();
+      pageLoaded(actions.onPageLoaded);
+    },
+    hide: () => {
+      state.container.style.display = 'none';
+      document.documentElement.style.overflowY = '';
+    },
+    onPageLoaded: () => {
+      //actions.hide()
+      onPageLoaded && onPageLoaded()
+    },
+  };
+
+  actions.start();
+
+  return {actions};
+}

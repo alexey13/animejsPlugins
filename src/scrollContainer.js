@@ -17,7 +17,7 @@ export function scrollContainer({sectionSelector, duration = 1000, easing = 'eas
     },
   }
 
-
+  //Direction - string 'up', 'down'
   function animate(direction) {
     let {scrollPosition, sectionHeight, animating, contentEl, scrollReachedEndPosition} = state;
     //If animation run return
@@ -114,6 +114,8 @@ export function scrollContainer({sectionSelector, duration = 1000, easing = 'eas
     //Save before we changed value
     state.beforeInitStyles.documentOverflowY = document.documentElement.style.overflowY;
     document.documentElement.style.overflowY = 'inherit';
+    document.documentElement.style.height = '100%';
+    document.body.style.height = '100%';
 
     //Save before we changed value
     state.beforeInitStyles.contentElOverflowY = state.contentEl.style.overflowY;
@@ -163,6 +165,8 @@ export function scrollContainer({sectionSelector, duration = 1000, easing = 'eas
     document.documentElement.style.overflowY = state.beforeInitStyles.documentOverflowY;
     state.contentEl.style.overflowY = state.beforeInitStyles.contentElOverflowY;
     state.contentEl.style.overflowX = state.beforeInitStyles.contentElOverflowX;
+    document.documentElement.style.height = '';
+    document.body.style.height = '';
     document.removeEventListener('touchmove', scroll, {passive: false})
     document.removeEventListener('wheel', scroll, {passive: false})
     window.removeEventListener('resize', resize);
