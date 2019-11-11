@@ -1,14 +1,15 @@
 import {throttle} from './helpers.js';
-export function scrollContainer({sectionSelector, duration = 1000, easing = 'easeInOutQuad', onBegin = null, onComplete = null} = {}) {
+export function scrollContainer({sectionSelector, wrapperSelector, duration = 1000, easing = 'easeInOutQuad', onBegin = null, onComplete = null} = {}) {
 
   const section = document.querySelector(sectionSelector);
-
+  const wrapper = document.querySelector(wrapperSelector);
+  
   const state = {
     slider: 1,//slider index 
     scrollPosition: 0,
     sectionHeight: section.offsetHeight,
     animating: false,
-    contentEl: section.parentNode,
+    contentEl: wrapper,
     scrollReachedEndPosition: 'up',
     beforeInitStyles: {},
     scroll: {

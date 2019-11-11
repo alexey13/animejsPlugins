@@ -130,6 +130,7 @@ https://codepen.io/alexzhav/pen/Yzzxgqd
 ```js
 animejsPlugins.scrollContainer({
   sectionSelector: '.section',
+  wrapperSelector: '.wrapper',
   duration: 1000,
   easing: 'easeInOutQuad',
   onBegin: (index, anim) => {},
@@ -140,6 +141,9 @@ animejsPlugins.scrollContainer({
 ### Options
 #### `sectionSelector`
 Section selector
+
+#### `wrapperSelector`
+Wrapper selector
 
 #### `duration`
 Animation duration
