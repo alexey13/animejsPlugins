@@ -100,11 +100,16 @@ animejsPlugins.imagesPlayer({
   to: 56,
   loop: true,
   autoplay: true,
+  onImagesLoaded: (anim) => {},
   onBegin: (anim) => {},
   onUpdate: (anim) => {},
   onComplete: (anim) => {}
 })
 ```
+### Options
+#### `onImagesLoaded`
+On images loaded event. Argument - current anime object.
+
 
 <br>
 

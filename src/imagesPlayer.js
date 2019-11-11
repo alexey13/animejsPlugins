@@ -1,5 +1,5 @@
 //Images player. Video from png images rolled by animejs
-export function imagesPlayer({containerSelector, path, from, to, loop = true, autoplay = true, duration = 1000, endDelay = 500, delay = 0, easing = 'linear', onBegin = null, onUpdate = null, onComplete = null} = {}) {
+export function imagesPlayer({containerSelector, path, from, to, loop = true, autoplay = true, duration = 1000, endDelay = 500, delay = 0, easing = 'linear', onImagesLoaded = null, onBegin = null, onUpdate = null, onComplete = null} = {}) {
 
 	const state = {
 		containerSelector: containerSelector,
@@ -29,8 +29,9 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 			})
 			Promise.all(imagePromise)
 				.then((images) => {
-					state.images = images
-					privateActions.render()
+					state.images = images;
+					privateActions.render();
+					onImagesLoaded && onImagesLoaded(state.animationObject);
 				})
 		},
 		createElements: () => {
@@ -78,9 +79,8 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 	}
 
 	const actions = {
-		play: () => {
-			state.animationObject.play();
-		}
+		play: () => state.animationObject.play(),
+		
 	};
 
 	function filesHelper(from, to, pathE) {
