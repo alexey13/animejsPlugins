@@ -45,7 +45,7 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 
 			let canvas = document.createElement('canvas');
 			canvas.className = 'ap-imagesplayer';
-			wrapper.appendChild(canvas);
+			wrapper.innerHtml = canvas;
 			let ctx = canvas.getContext('2d');
 			state.ctx = ctx;
 			state.canvasEl = canvas;
