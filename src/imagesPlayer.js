@@ -35,9 +35,8 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 				})
 		},
 		createElements: () => {
-			let wrapper = document.querySelector(state.containerSelector);
-			state.wrapperEl = wrapper;
-			
+			state.wrapperEl = document.querySelector(state.containerSelector);
+			state.wrapperEl.innerHtml = '';//Clean container
 			let imagesWrapper = document.createElement('div')
 			imagesWrapper.style.display = 'none';
 			state.imagesWrapperEl = imagesWrapper;
