@@ -16,10 +16,17 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 
 	const privateActions = {
 		init: () => {
-			privateActions.createElements();
 			privateActions.loadImages();
 		},
 		loadImages: () => {
+
+			//Create images wrapper
+			state.wrapperEl = document.querySelector(state.containerSelector);
+			state.imagesWrapperEl = document.createElement('div');
+			state.imagesWrapperEl.style.display = 'none';
+			state.wrapperEl.appendChild(state.imagesWrapperEl);
+
+			//Get images
 			let images = filesHelper(from, to, path);
 			let imagePromise = images.path.map(p => {
 				let image = document.createElement('img');
@@ -27,31 +34,28 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 				state.imagesWrapperEl.appendChild(image);
 				return new Promise((resolve) => image.addEventListener('load', () => resolve(image)))
 			})
+
+			//Load images
 			Promise.all(imagePromise)
 				.then((images) => {
 					state.images = images;
 					privateActions.render();
 					onImagesLoaded && onImagesLoaded(state.animationObject);
 				})
-		},
-		createElements: () => {
-			state.wrapperEl = document.querySelector(state.containerSelector);
-			state.wrapperEl.innerHtml = '';//Clean container
-			let imagesWrapper = document.createElement('div')
-			imagesWrapper.style.display = 'none';
-			state.imagesWrapperEl = imagesWrapper;
-			state.wrapperEl.appendChild(imagesWrapper);
-
-			let canvas = document.createElement('canvas');
-			canvas.className = 'ap-imagesplayer';
-			state.wrapperEl.appendChild(canvas);
-			let ctx = canvas.getContext('2d');
-			state.ctx = ctx;
-			state.canvasEl = canvas;
+				.catch(er => console.log('images not loaded'))
+				
 		},
 		render: () => {
+
+			//Create canvas
+			state.canvasEl = document.createElement('canvas');
+			state.canvasEl.className = 'ap-imagesplayer';
+			state.wrapperEl.appendChild(state.canvasEl);
+			state.ctx = state.canvasEl.getContext('2d');
 			state.canvasEl.width = state.images[0].naturalWidth;
 			state.canvasEl.height = state.images[0].naturalHeight;
+
+			//Set animation
 			state.animationObject = anime({
 				targets: state,
 				currentImage: state.allLength,
@@ -79,7 +83,6 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 
 	const actions = {
 		play: () => state.animationObject.play(),
-		
 	};
 
 	function filesHelper(from, to, pathE) {
