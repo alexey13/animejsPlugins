@@ -32,7 +32,10 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 				let image = document.createElement('img');
 				image.src = p;
 				state.imagesWrapperEl.appendChild(image);
-				return new Promise((resolve) => image.addEventListener('load', () => resolve(image)))
+				return new Promise((resolve) => image.addEventListener('load', function loaded(){
+					image.removeEventListener('load', loaded);
+					return resolve(image);
+				}))
 			})
 
 			//Load images
@@ -43,7 +46,6 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 					onImagesLoaded && onImagesLoaded(state.animationObject);
 				})
 				.catch(er => console.log('images not loaded'))
-				
 		},
 		render: () => {
 
