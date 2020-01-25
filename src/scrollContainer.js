@@ -114,7 +114,7 @@ export function scrollContainer({sectionSelector, wrapperSelector, duration = 10
     window.scrollTop = 0;
     //Save before we changed value
     state.beforeInitStyles.documentOverflowY = document.documentElement.style.overflowY;
-    document.documentElement.style.overflowY = 'inherit';
+    document.documentElement.style.overflowY = 'hidden';
     document.documentElement.style.height = '100%';
     document.body.style.height = '100%';
 
@@ -166,8 +166,8 @@ export function scrollContainer({sectionSelector, wrapperSelector, duration = 10
     document.documentElement.style.overflowY = state.beforeInitStyles.documentOverflowY;
     state.contentEl.style.overflowY = state.beforeInitStyles.contentElOverflowY;
     state.contentEl.style.overflowX = state.beforeInitStyles.contentElOverflowX;
-    document.documentElement.style.height = '';
-    document.body.style.height = '';
+    document.documentElement.style.height = null;
+    document.body.style.height = null;
     document.removeEventListener('touchmove', scroll, {passive: false})
     document.removeEventListener('wheel', scroll, {passive: false})
     window.removeEventListener('resize', resize);
