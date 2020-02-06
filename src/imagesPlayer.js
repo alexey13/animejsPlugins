@@ -85,6 +85,7 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 
 	const actions = {
 		play: () => state.animationObject.play(),
+		getAnimation: () => state.animationObject
 	};
 
 	function filesHelper(from, to, pathE) {
