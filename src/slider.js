@@ -14,9 +14,7 @@ export function slider({
 	const state = {
 		slidesLength,
 		currentSlideIndex: 0,
-		currentSlideEl: null,
 		nextSlideIndex: null,
-		nextSlideEl: null,
 		allSlidesEls,
 		playing: false,
 		autoplay,
@@ -39,7 +37,7 @@ export function slider({
 			}
 			animate()
 		},
-		cancelRaf() {
+		cancelTimer() {
 			cancelAnimationFrame(this.frame);
 		}
 	};
@@ -52,22 +50,17 @@ export function slider({
 
 			state.playing = true;
 
-			//Current Slide
-			const {currentSlideIndex, slidesLength} = state;
-			state.currentSlideEl = allSlidesEls[currentSlideIndex];
-
 			//Next Slide
 			state.nextSlideIndex = slidesLength - 1 < index ? 0 : index;
-			state.nextSlideEl = allSlidesEls[state.nextSlideIndex]
 
-			const {currentSlideEl, nextSlideEl} = state;
+			const {currentSlideIndex, nextSlideIndex} = state;
 
 			//Current slide, next slide, callback when animation is done
-			onSlide(currentSlideEl, nextSlideEl, _actions.stop);
+			onSlide(currentSlideIndex, nextSlideIndex, _actions.stop);
 		},
 		stopAutoplay() {
 			state.autoplay = false;
-			helpers.cancelRaf();
+			helpers.cancelTimer();
 		},
 		stop() {
 			state.currentSlideIndex = state.nextSlideIndex;
