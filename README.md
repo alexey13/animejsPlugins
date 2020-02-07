@@ -165,3 +165,54 @@ Callback function when animation begin. Arguments: current section index, anime 
 #### `onComplete`
 Callback function when animation complete. Arguments: current section index, anime object.
 ##### Default: `null`
+
+<br>
+
+## Slider
+- tiny helper to create slider
+
+https://codepen.io/alexzhav/pen/Exjaaaq
+
+```js
+animejsPlugins.slider({
+  slidersSelector: '.slider__inner .slider__item',
+  onSlide: function(currentSlide, nextSlide, done) {
+    animation(currentSlide, nextSlide, done)
+  },
+  autoplay: false,
+  timeout: 3000
+})
+```
+### Options
+#### `slidersSelector`
+Sliders selector
+
+#### `autoplay`
+Autoplay mode
+
+#### `timeout`
+Timeout between slide change if autoplay is active
+
+#### `onSlide`
+Callback function when change slide event start.
+Arguments: current slider node element, next slide node element, callback to call when animation finished.
+
+### Return object with actions
+#### `playNext`
+Start next slider
+
+#### `playPrev`
+Start prev slider
+
+#### `playIndex`
+Start slider with index
+
+#### `stopAutoplay`
+Stop autoplay. Used on first click.
+
+#### `startAutoplay`
+Start autoplay
+
+
+
+

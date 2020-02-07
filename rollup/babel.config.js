@@ -20,7 +20,8 @@ const pluginsFiles = {
   randomLetters: './src/randomLetters.js',
   imagesPlayer: './src/imagesPlayer.js',
   scrollContainer: './src/scrollContainer.js',
-  charming: './src/charming.js'
+  charming: './src/charming.js',
+  slider: './src/slider.js'
 };
 
 const rollupEach = Object.keys(pluginsFiles).map(name => {
