@@ -1,21 +1,15 @@
 export function slider({
-	slidersSelector,
+	slidesLength,
 	autoplay = false,
 	timeout = 3000,
 	onSlide
 } = {}) {
 
-	//Slides nodes
-	const allSlidesEls = Array.from(document.querySelectorAll(slidersSelector));
-
-	//Slides length
-	const slidesLength = allSlidesEls.length;
 
 	const state = {
 		slidesLength,
 		currentSlideIndex: 0,
 		nextSlideIndex: null,
-		allSlidesEls,
 		playing: false,
 		autoplay,
 		timeout

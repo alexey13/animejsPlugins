@@ -175,7 +175,7 @@ https://codepen.io/alexzhav/pen/Exjaaaq
 
 ```js
 animejsPlugins.slider({
-  slidersSelector: '.slider__inner .slider__item',
+  slidersLength: 2,
   onSlide: function(currentSlide, nextSlide, done) {
     animation(currentSlide, nextSlide, done)
   },
@@ -184,8 +184,8 @@ animejsPlugins.slider({
 })
 ```
 ### Options
-#### `slidersSelector`
-Sliders selector
+#### `slidersLength`
+Slides count
 
 #### `autoplay`
 Autoplay mode
