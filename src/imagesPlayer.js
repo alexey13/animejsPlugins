@@ -42,10 +42,13 @@ export function imagesPlayer({containerSelector, path, from, to, loop = true, au
 			Promise.all(imagePromise)
 				.then((images) => {
 					state.images = images;
+				})
+				.catch(er => console.log('images not loaded'))
+				.then(() => {
 					privateActions.render();
 					onImagesLoaded && onImagesLoaded(state.animationObject);
 				})
-				.catch(er => console.log('images not loaded'))
+				.catch(er => console.log(er))
 		},
 		render: () => {
 

@@ -61,6 +61,7 @@ export function slider({
 			state.playing = false;
 		},
 		startAutoplay() {
+			state.autoplay = true;
 			function callback() {
 				const index = state.currentSlideIndex + 1;
 				_actions.play(index)
