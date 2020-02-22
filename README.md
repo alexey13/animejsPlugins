@@ -100,6 +100,7 @@ animejsPlugins.imagesPlayer({
   to: 56,
   loop: true,
   autoplay: true,
+  direction: 'normal',
   sprite: false,
   onImagesLoaded: (anim) => {},
   onBegin: (anim) => {},
@@ -111,9 +112,13 @@ animejsPlugins.imagesPlayer({
 #### `onImagesLoaded`
 On images loaded event. Argument - current anime object.
 
+#### `direction`
+Same as animejs property
+##### Default: `normal`
+
 #### `sprite`
 Boolean. If set to true path to sprite without {num} '/animations/logo-png/name.png'. Images in sprite must be in vertical direction.
-##### Default: `false`
+##### Default: false
 
 <br>
 
