@@ -9,6 +9,7 @@ export function imagesPlayer({
 	autoplay = true,
 	duration = 1000,
 	endDelay = 500,
+	direction = 'normal',
 	delay = 0,
 	easing = 'linear',
 	onImagesLoaded = null,
@@ -93,13 +94,14 @@ export function imagesPlayer({
 			state.animationObject = anime({
 				targets: state,
 				currentImage: state.allLength,
-				duration: duration,
-				loop: loop,
-				autoplay: autoplay,
+				duration,
+				loop,
+				autoplay,
 				round: 1,
-				endDelay: endDelay,
-				delay: delay,
-				easing: easing,
+				endDelay,
+				delay,
+				direction,
+				easing,
 				begin: function(anim) {
 					onBegin && onBegin(anim);
 				},
