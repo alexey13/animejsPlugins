@@ -4,11 +4,7 @@ export function imagesPlayer({
 	path,
 	from,
 	to,
-	sprite: {
-  	imageWidth = null,//integrer
-  	imageHeight = null,//integrer
-  	chromakeyColor = null //rgb array [0,0,255]
-	} = {},
+	sprite = false,
 	loop = true,
 	autoplay = true,
 	duration = 1000,
@@ -43,21 +39,12 @@ export function imagesPlayer({
 			let imagePromise;
 
 			//Sequince
-			if(!sprite.imageWidth) {
+			if(!sprite) {
 				let images = filesHelper(from, to, path);
 				imagePromise = images.path.map(p => {
 					let image = document.createElement('img');
 					image.src = p;
-					//In Chrome decode with bags, safari not working?
-					const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-					if (isFirefox) {
-						return image.decode().then(() => image);
-					} else {
-						return new Promise((resolve) => image.addEventListener('load', function loaded(){
-							image.removeEventListener('load', loaded);
-							resolve(image);
-						}))
-					}
+					return image.decode().then(() => image)
 				})
 			//Sprite
 			} else {
@@ -76,7 +63,7 @@ export function imagesPlayer({
 				Promise.all(imagePromise)
 					.then((images) => {
 						//Sprite return array of arrays
-						state.images = sprite.imageWidth ? images[0] : images;
+						state.images = sprite ? images[0] : images;
 						state.allLength = to - from;
 						state.lastImage = to;
 					})
@@ -116,7 +103,7 @@ export function imagesPlayer({
 					onBegin && onBegin(anim);
 				},
 				update: function(anim) {
-					//state.ctx.clearRect(0, 0, state.canvasEl.width, state.canvasEl.height);
+					state.ctx.clearRect(0, 0, state.canvasEl.width, state.canvasEl.height);
 					state.ctx.drawImage(state.images[state.currentImage], 0, 0);
 					onUpdate && onUpdate(anim)
 				},
@@ -173,35 +160,17 @@ export function imagesPlayer({
 		  }
 		}
 
-		//Create canvas
-		const sprite = document.createElement('canvas');
-		sprite.width = image.naturalWidth || image.width;
-		sprite.height = image.naturalHeight || image.height;
-		const spriteCtx = sprite.getContext('2d');
-		//Draw sprite
-		spriteCtx.drawImage(image, 0, 0);
-		//Get pixel data
-		let frame = spriteCtx.getImageData(0, 0, sprite.width, sprite.height);
-		let l = frame.data.length / 4;
-		//For each pixel loop
-		for (let i = 0; i < l; i++) {
-		  let r = frame.data[i * 4 + 0];
-		  let g = frame.data[i * 4 + 1];
-		  let b = frame.data[i * 4 + 2];
-		  if (r === chromakeyColor[0] && g === chromakeyColor[1] && b === chromakeyColor[2]) {//if blue make pixel transparent
-		    frame.data[i * 4 + 3] = 0;
-		  }
-		}
-
-		spriteCtx.putImageData(frame, 0, 0);
+		const len = to - from + 1;
+		//Calc image dimension for vertical based sprite
+		const imageWidth = image.naturalWidth;
+		const imageHeight = image.naturalHeight / len;
+		const imageX = 0;
 
 		//Cords of images in sprite
-		const coords = [];
-		for(let imageY = 0; imageY < sprite.naturalHeight / imageHeight; imageY++) {
-			for(let imageX = 0; imageX < sprite.naturalWidth / imageWidth; imageX++) {
-				coords.push([imageX * imageWidth, imageY * imageHeight, imageWidth, imageHeight]);
-			}
-		}
+	  const coords = [];
+	  for(let imageY = 0; imageY < len; imageY++) {
+	  	coords.push([0, imageY * imageHeight, imageWidth, imageHeight]);
+	  }
 
 	  return Promise.all(coords.map(function(opts) {
 	      return createImageBitmap.apply(window, [image].concat(opts));

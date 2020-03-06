@@ -34,7 +34,7 @@ const rollupEach = Object.keys(pluginsFiles).map(name => {
     output: {
       file: `./dist/animejsPlugins-${name}.js`,
       format: 'iife',
-      name: `animejsPlugins.${name}`
+      name: `animejsPlugins`
     }
   }
 });
