@@ -44,7 +44,10 @@ export function imagesPlayer({
 				imagePromise = images.path.map(p => {
 					let image = document.createElement('img');
 					image.src = p;
-					return image.decode().then(() => image)
+					return new Promise((resolve) => image.addEventListener('load', function loaded(){
+						image.removeEventListener('load', loaded);
+						resolve(image);
+					}))
 				})
 			//Sprite
 			} else {
