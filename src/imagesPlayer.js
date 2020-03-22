@@ -122,17 +122,12 @@ export function imagesPlayer({
 	};
 
 	function filesHelper(from, to, pathE) {
-		const placeholder = '{num}'
-
-		let different = pathE.indexOf(placeholder);
-
-		//Add number of image in place
-		const src = (index) => [pathE.slice(0, different), index, pathE.slice(different + 5)].join('');
+		const placeholder = '{num}';
 
     //Create array of image paths
 		let path = [];
 		for(let i = from; i <= to; i++) {
-			path.push(src(i));
+			path.push(pathE.replace(placeholder, i));
 		}
 
 		return {
